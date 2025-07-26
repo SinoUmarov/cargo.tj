@@ -1,70 +1,124 @@
-# React + TypeScript + Vite
+Техническое задание: Cargo Tracker
+📌 Название проекта:
+Cargo Tracker — система отслеживания доставки, позволяющая карго-компаниям подключать своих Telegram-ботов, а клиентам — отслеживать статус посылки через веб-сайт по трек-коду.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🎯 Цель проекта:
+Создать веб-приложение, которое позволяет:
 
-Currently, two official plugins are available:
+Карго-компаниям подключать своего Telegram-бота через API токен.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Пользователям отслеживать статус своей посылки по трек-коду на сайте.
 
-## Expanding the ESLint configuration
+Администраторам управлять компаниями, ботами и статусами доставок через панель управления.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+🔧 Технологии:
+Frontend: Next.js, React, Tailwind CSS, Shadcn UI /redux и т...
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Telegram API: Webhooks и Bot API
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Авторизация: JWT + роль администратора
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Хостинг: Vercel (Frontend) + Render 
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+👥 Роли пользователей:
+Клиент (без регистрации)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Вводит трек-код на сайте
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# cargo.tj
+Получает информацию о посылке (статус, дата, описание, фото)
+
+Админ компании
+
+Авторизация по логину и паролю
+
+Управление доставками (создание/обновление треков)
+
+Привязка Telegram-бота по токену
+
+Суперадмин (владелец платформы)
+
+Управление карго-компаниями
+
+Просмотр всех доставок
+
+Статистика и аналитика
+
+📦 Основной функционал:
+1. Веб-сайт (для клиентов)
+Поле для ввода трек-кода
+
+Карточка с данными о посылке:
+
+Статус: "В пути", "На складе", "Доставлено", "Задержка"
+
+Фото посылки (опционально)
+
+Дата отправки и обновлений
+
+Информация о карго-компании
+
+2. Админ-панель (React + Tabs UI)
+Dashboard:
+
+Кол-во доставок
+
+Онлайн/оффлайн статус ботов
+
+Кол-во активных компаний
+
+Компании:
+
+Список всех карго-компаний
+
+Возможность добавить/удалить компанию
+
+Привязка Telegram-бота через токен
+
+Доставки:
+
+Таблица с доставками
+
+Возможность редактировать статус, добавить трек, фото, комментарий
+
+Аналитика:
+
+Диаграммы и графики с количеством доставок по дням/месяцам
+
+Настройки:
+
+Профиль, смена пароля
+
+Управление API токенами
+
+🤖 Telegram-бот компании
+Каждая компания получает уникального бота
+
+Функции:
+
+Добавление доставки через команду /add
+
+Обновление статуса через команду /update
+
+Отправка уведомлений клиентам по номеру трека
+
+Данные синхронизируются с сервером через Webhook
+
+🗃️ Структура БД (упрощённо):
+Таблица companies
+| id | name | telegram_bot_token | created_at |
+
+Таблица deliveries
+| id | track_code | status | description | photo_url | company_id | updated_at |
+
+Таблица admins
+| id | email | password_hash | role (admin/superadmin) |
+
+✅ Дополнительно:
+Адаптивная верстка
+
+Многоязычность (RU/EN)
+
+API документация для сторонних интеграций
+
+Возможность в будущем подключать оплату доставки (Stripe, Payme и т.п.)
+
