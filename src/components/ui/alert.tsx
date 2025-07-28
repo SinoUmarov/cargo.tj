@@ -1,8 +1,15 @@
 "use client";
 
+import React, { useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "./utils";
-import { X, AlertCircle, CheckCircle2, Info, TriangleAlert } from "lucide-react";
+import {
+  X,
+  AlertCircle,
+  CheckCircle2,
+  Info,
+  TriangleAlert,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./button";
 
@@ -34,7 +41,7 @@ const alertVariants = cva(
   }
 );
 
-const iconVariants = {
+const iconVariants: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
   default: Info,
   destructive: AlertCircle,
   warning: TriangleAlert,
@@ -47,66 +54,95 @@ interface AlertProps
     VariantProps<typeof alertVariants> {
   dismissible?: boolean;
   onDismiss?: () => void;
-  icon?: React.ReactNode;
+  icon?: React.ReactNode | React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  visible?: boolean;
+  defaultVisible?: boolean;
 }
 
-function Alert({
+export function Alert({
   className,
   variant = "default",
   elevation,
   dismissible = false,
   onDismiss,
   icon,
+  visible,
+  defaultVisible = true,
   children,
   ...props
 }: AlertProps) {
-  const IconComponent = icon ? undefined : iconVariants[variant || "default"];
+  const [internalVisible, setInternalVisible] = useState(defaultVisible);
+  const isControlled = visible !== undefined;
+  const isVisible = isControlled ? visible : internalVisible;
+
+  const RenderIcon = () => {
+    if (icon) {
+      if (React.isValidElement(icon)) return icon;
+      if (typeof icon === "function") {
+        const Icon = icon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+        return <Icon className="shrink-0" />;
+      }
+    }
+    const DefaultIcon = iconVariants[variant] || Info;
+    return <DefaultIcon className="shrink-0" />;
+  };
+
+  function handleDismiss() {
+    if (!isControlled) {
+      setInternalVisible(false);
+    }
+    onDismiss?.();
+  }
 
   return (
     <AnimatePresence>
-      <motion.div
-        data-slot="alert"
-        role="alert"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ type: "spring", damping: 20, stiffness: 300 }}
-        className={cn(alertVariants({ variant, elevation, className }))}
-        {...props}
-      >
-        {/* Glow effect */}
-        <div
-          className={cn(
-            "absolute inset-0 -z-10 opacity-10 pointer-events-none",
-            variant === "destructive" && "bg-destructive",
-            variant === "warning" && "bg-warning",
-            variant === "success" && "bg-success",
-            variant === "info" && "bg-info"
+      {isVisible && (
+        <motion.div
+          data-slot="alert"
+          role="alert"
+          aria-live="assertive"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ type: "spring", damping: 20, stiffness: 300 }}
+          className={cn(alertVariants({ variant, elevation, className }))}
+          {...props}
+        >
+          <div
+            className={cn(
+              "absolute inset-0 -z-10 opacity-10 pointer-events-none",
+              variant === "destructive" && "bg-destructive",
+              variant === "warning" && "bg-warning",
+              variant === "success" && "bg-success",
+              variant === "info" && "bg-info"
+            )}
+          />
+
+          <RenderIcon />
+
+          <div className="space-y-1.5 col-start-2">{children}</div>
+
+          {dismissible && (
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="absolute right-2 top-2 rounded-full p-1 h-6 w-6 text-muted-foreground hover:text-foreground"
+              onClick={handleDismiss}
+              aria-label="Close alert"
+            >
+              <X className="h-3.5 w-3.5" />
+            </Button>
           )}
-        />
-
-        {icon || (IconComponent && <IconComponent className="shrink-0" />)}
-
-        <div className="space-y-1.5 col-start-2">
-          {children}
-        </div>
-
-        {dismissible && (
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className="absolute right-2 top-2 rounded-full p-1 h-6 w-6 text-muted-foreground hover:text-foreground"
-            onClick={onDismiss}
-          >
-            <X className="h-3.5 w-3.5" />
-          </Button>
-        )}
-      </motion.div>
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 }
 
-function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
+export function AlertTitle({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-title"
@@ -119,7 +155,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function AlertDescription({
+export function AlertDescription({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -135,7 +171,10 @@ function AlertDescription({
   );
 }
 
-function AlertActions({ className, ...props }: React.ComponentProps<"div">) {
+export function AlertActions({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-actions"
@@ -144,5 +183,3 @@ function AlertActions({ className, ...props }: React.ComponentProps<"div">) {
     />
   );
 }
-
-export { Alert, AlertTitle, AlertDescription, AlertActions };

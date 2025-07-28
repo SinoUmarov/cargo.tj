@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "./utils";
 
@@ -54,6 +55,7 @@ interface ButtonProps
   loading?: boolean;
   loadingText?: string;
   ripple?: boolean;
+  children: React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -98,10 +100,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         data-slot="button"
-        className={cn(
-          buttonVariants({ variant, size, loading, className }),
-          "relative"
-        )}
+        className={cn(buttonVariants({ variant, size, loading }), className, "relative")}
         onClick={handleClick}
         disabled={loading || props.disabled}
         {...props}

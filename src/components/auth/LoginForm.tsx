@@ -51,7 +51,7 @@ export function LoginForm() {
     }));
 
     if (loginUser.fulfilled.match(result)) {
-      // Login successful, will be handled by Redux state change
+      // Login successful, handled by Redux state change
     }
   };
 
@@ -75,103 +75,105 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader className="text-center">
-        <div className="flex justify-center mb-4">
-          <div className="p-3 bg-primary/10 rounded-full">
-            <LogIn className="w-6 h-6 text-primary" />
+    <Card className="w-full max-w-md mx-auto border-none bg-white shadow-lg rounded-xl">
+      <CardHeader className="text-center pb-6">
+        <div className="flex justify-center mb-6">
+          <div className="p-4 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-full shadow-md">
+            <LogIn className="w-7 h-7 text-white" />
           </div>
         </div>
-        <CardTitle>Вход в систему</CardTitle>
-        <CardDescription>
-          Войдите в панель администратора используя ваши учетные данные
+        <CardTitle className="text-2xl font-semibold text-gray-900">Вход в систему</CardTitle>
+        <CardDescription className="text-gray-500 mt-1 text-sm max-w-xs mx-auto">
+          Войдите в панель администратора, используя ваши учетные данные
         </CardDescription>
       </CardHeader>
 
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="font-medium text-gray-700 mb-2 block">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
                 id="email"
                 type="email"
                 placeholder="admin@example.com"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className={`pl-10 ${validationErrors.email ? 'border-destructive' : ''}`}
+                className={`pl-12 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500
+                  ${validationErrors.email ? 'ring-2 ring-red-500' : ''}`}
                 disabled={isLoading}
+                style={{ border: 'none' }} // Убираем border
               />
             </div>
             {validationErrors.email && (
-              <p className="text-sm text-destructive mt-1">{validationErrors.email}</p>
+              <p className="text-sm text-red-600 mt-1">{validationErrors.email}</p>
             )}
           </div>
 
           <div>
-            <Label htmlFor="password">Пароль</Label>
+            <Label htmlFor="password" className="font-medium text-gray-700 mb-2 block">Пароль</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
                 id="password"
                 type="password"
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className={`pl-10 ${validationErrors.password ? 'border-destructive' : ''}`}
+                className={`pl-12 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500
+                  ${validationErrors.password ? 'ring-2 ring-red-500' : ''}`}
                 disabled={isLoading}
+                style={{ border: 'none' }} // Убираем border
               />
             </div>
             {validationErrors.password && (
-              <p className="text-sm text-destructive mt-1">{validationErrors.password}</p>
+              <p className="text-sm text-red-600 mt-1">{validationErrors.password}</p>
             )}
           </div>
 
           {error && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
+            <Alert variant="destructive" className="mb-4 shadow-md rounded-lg">
+              <AlertCircle className="h-5 w-5" />
+              <AlertDescription className="text-sm font-medium">{error}</AlertDescription>
             </Alert>
           )}
 
           <Button 
             type="submit" 
-            className="w-full" 
+            className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 transition-all duration-300 flex justify-center items-center gap-2 font-semibold shadow-md"
             disabled={isLoading}
           >
             {isLoading ? (
               <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Вход...
               </>
             ) : (
               <>
-                <LogIn className="w-4 h-4 mr-2" />
+                <LogIn className="w-5 h-5" />
                 Войти
               </>
             )}
           </Button>
 
-          <div className="text-center">
+          <div className="text-center mt-4">
             <button
               type="button"
               onClick={handleBackToRegister}
-              className="text-sm text-muted-foreground hover:text-primary flex items-center justify-center gap-2 mx-auto"
+              className="text-sm text-indigo-600 hover:text-indigo-800 font-medium flex items-center justify-center gap-2 mx-auto transition-colors"
               disabled={isLoading}
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-5 h-5" />
               Назад к регистрации
             </button>
           </div>
         </form>
 
         {/* Demo credentials */}
-        <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-          <h4 className="text-sm font-medium mb-2">Для тестирования:</h4>
-          <p className="text-sm text-muted-foreground">
-            Сначала зарегистрируйтесь, затем используйте те же данные для входа
-          </p>
+        <div className="mt-8 p-5 bg-indigo-50 rounded-xl shadow-inner text-indigo-700 text-sm font-medium">
+          <h4 className="mb-1 text-base">Для тестирования:</h4>
+          <p>Сначала зарегистрируйтесь, затем используйте те же данные для входа</p>
         </div>
       </CardContent>
     </Card>

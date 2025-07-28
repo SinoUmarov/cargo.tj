@@ -44,7 +44,7 @@ export function AdminPanel() {
   if (!isAuthenticated) {
     return (
       <div className="max-w-xl mx-auto space-y-6 py-10 px-4 animate-fade-in">
-        <Card className="rounded-2xl shadow-xl border border-border bg-background/70 backdrop-blur">
+        <Card className="rounded-2xl shadow-xl border-none bg-background/70 backdrop-blur">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
               <div className="p-3 bg-primary/10 rounded-full">
@@ -60,7 +60,7 @@ export function AdminPanel() {
           </CardHeader>
         </Card>
 
-        <Card className="rounded-2xl shadow-lg border border-border bg-background/80 backdrop-blur-md">
+        <Card className="rounded-2xl shadow-lg border-none bg-background/80 backdrop-blur-md">
           <CardContent className="py-6">
             {registrationStep === "register" ? (
               <RegisterForm onSwitchToLogin={handleSwitchToLogin} />

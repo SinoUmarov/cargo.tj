@@ -74,7 +74,7 @@ export function TrackingForm() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6 ">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -92,14 +92,14 @@ export function TrackingForm() {
                 placeholder="Введите трек-код (например: TK001234567)"
                 value={trackingCode}
                 onChange={(e) => setTrackingCode(e.target.value)}
-                className="h-12"
+                className="h-12 border-1 outline-none"
                 disabled={isLoading}
               />
             </div>
             <Button type="submit" disabled={isLoading || !trackingCode.trim()} className="h-12 px-8">
               {isLoading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                  <div className="w-4 h-4  rounded-full animate-spin mr-2" />
                   Поиск...
                 </>
               ) : (
@@ -231,7 +231,7 @@ export function TrackingForm() {
             <CardContent>
               <div className="space-y-4">
                 {currentTracking.timeline.map((event, index) => (
-                  <div key={index} className="flex gap-4 pb-4 border-b last:border-b-0">
+                  <div key={index} className="flex gap-4 pb-4">
                     <div className="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                       {getStatusIcon(event.status)}
                     </div>

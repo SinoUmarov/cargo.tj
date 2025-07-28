@@ -89,9 +89,9 @@ export function AdminDashboard() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 py-8 px-4">
+    <div className="max-w-3xl mx-auto space-y-6 py-8 px-4 ">
       {/* Header */}
-      <Card className="rounded-2xl shadow-xl border border-border bg-background/70 backdrop-blur">
+      <Card className="rounded-2xl shadow-xl p-[10px] bg-background/70 backdrop-blur">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -188,7 +188,7 @@ export function AdminDashboard() {
                         value={botSettings[field] || ""}
                         onChange={(e) => handleInputChange(field, e.target.value)}
                         rows={3}
-                        className="rounded-xl shadow-sm"
+                        className="rounded-xl shadow-sm border-1 "
                         disabled={isLoading}
                       />
                     ) : (

@@ -29,29 +29,13 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
   const validateForm = () => {
     const errors: {[key: string]: string} = {};
 
-    if (!formData.firstName.trim()) {
-      errors.firstName = 'Имя обязательно';
-    }
-
-    if (!formData.lastName.trim()) {
-      errors.lastName = 'Фамилия обязательна';
-    }
-
-    if (!formData.email.trim()) {
-      errors.email = 'Email обязателен';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Неверный формат email';
-    }
-
-    if (!formData.password) {
-      errors.password = 'Пароль обязателен';
-    } else if (formData.password.length < 6) {
-      errors.password = 'Пароль должен содержать минимум 6 символов';
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      errors.confirmPassword = 'Пароли не совпадают';
-    }
+    if (!formData.firstName.trim()) errors.firstName = 'Имя обязательно';
+    if (!formData.lastName.trim()) errors.lastName = 'Фамилия обязательна';
+    if (!formData.email.trim()) errors.email = 'Email обязателен';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Неверный формат email';
+    if (!formData.password) errors.password = 'Пароль обязателен';
+    else if (formData.password.length < 6) errors.password = 'Пароль должен содержать минимум 6 символов';
+    if (formData.password !== formData.confirmPassword) errors.confirmPassword = 'Пароли не совпадают';
 
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
@@ -59,13 +43,11 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
+
+    if (!validateForm()) return;
 
     dispatch(clearError());
-    
+
     const result = await dispatch(registerUser({
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -74,169 +56,164 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
     }));
 
     if (registerUser.fulfilled.match(result)) {
-      // Registration successful, will switch to login automatically via Redux state
+      // Успешная регистрация
     }
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    
-    // Clear validation error when user starts typing
+
     if (validationErrors[field]) {
       setValidationErrors(prev => ({ ...prev, [field]: '' }));
     }
-    
-    // Clear global error
     if (error) {
       dispatch(clearError());
     }
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card
+      className="w-full max-w-md mx-auto bg-white shadow-xl rounded-3xl border-none"
+    
+    >
       <CardHeader className="text-center">
-        <div className="flex justify-center mb-4">
-          <div className="p-3 bg-primary/10 rounded-full">
-            <UserPlus className="w-6 h-6 text-primary" />
+        <div className="flex justify-center mb-5">
+          <div className="p-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full shadow-lg">
+            <UserPlus className="w-7 h-7 text-white" />
           </div>
         </div>
-        <CardTitle>Регистрация администратора</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-3xl font-extrabold text-gray-900">Регистрация администратора</CardTitle>
+        <CardDescription className="text-gray-500 mt-1">
           Создайте аккаунт для доступа к панели администратора
         </CardDescription>
       </CardHeader>
 
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="firstName">Имя</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  id="firstName"
-                  type="text"
-                  placeholder="Имя"
-                  value={formData.firstName}
-                  onChange={(e) => handleInputChange('firstName', e.target.value)}
-                  className={`pl-10 ${validationErrors.firstName ? 'border-destructive' : ''}`}
-                  disabled={isLoading}
-                />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid grid-cols-2 gap-5">
+            {['firstName', 'lastName'].map((field) => (
+              <div key={field}>
+                <Label htmlFor={field} className="text-gray-700 font-semibold">{field === 'firstName' ? 'Имя' : 'Фамилия'}</Label>
+                <div className="relative mt-1">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Input
+                    id={field}
+                    type="text"
+                    placeholder={field === 'firstName' ? 'Имя' : 'Фамилия'}
+                    value={formData[field]}
+                    onChange={(e) => handleInputChange(field, e.target.value)}
+                    className={`pl-12 bg-white shadow-md rounded-xl transition-shadow duration-300
+                      focus:shadow-indigo-500/50 focus:shadow-[0_0_10px_2px_rgba(99,102,241,0.5)]
+                      ${validationErrors[field] ? 'shadow-[0_0_8px_3px_rgba(220,38,38,0.6)] bg-red-50' : ''}`}
+                    disabled={isLoading}
+                    style={{ border: 'none' }}
+                  />
+                </div>
+                {validationErrors[field] && (
+                  <p className="text-sm text-red-600 mt-1">{validationErrors[field]}</p>
+                )}
               </div>
-              {validationErrors.firstName && (
-                <p className="text-sm text-destructive mt-1">{validationErrors.firstName}</p>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="lastName">Фамилия</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  id="lastName"
-                  type="text"
-                  placeholder="Фамилия"
-                  value={formData.lastName}
-                  onChange={(e) => handleInputChange('lastName', e.target.value)}
-                  className={`pl-10 ${validationErrors.lastName ? 'border-destructive' : ''}`}
-                  disabled={isLoading}
-                />
-              </div>
-              {validationErrors.lastName && (
-                <p className="text-sm text-destructive mt-1">{validationErrors.lastName}</p>
-              )}
-            </div>
+            ))}
           </div>
 
           <div>
-            <Label htmlFor="email">Email</Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Label htmlFor="email" className="text-gray-700 font-semibold">Email</Label>
+            <div className="relative mt-1">
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
                 id="email"
                 type="email"
                 placeholder="admin@example.com"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className={`pl-10 ${validationErrors.email ? 'border-destructive' : ''}`}
+                className={`pl-12 bg-white shadow-md rounded-xl transition-shadow duration-300
+                  focus:shadow-indigo-500/50 focus:shadow-[0_0_10px_2px_rgba(99,102,241,0.5)]
+                  ${validationErrors.email ? 'shadow-[0_0_8px_3px_rgba(220,38,38,0.6)] bg-red-50' : ''}`}
                 disabled={isLoading}
+                style={{ border: 'none' }}
               />
             </div>
             {validationErrors.email && (
-              <p className="text-sm text-destructive mt-1">{validationErrors.email}</p>
+              <p className="text-sm text-red-600 mt-1">{validationErrors.email}</p>
             )}
           </div>
 
           <div>
-            <Label htmlFor="password">Пароль</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Label htmlFor="password" className="text-gray-700 font-semibold">Пароль</Label>
+            <div className="relative mt-1">
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
                 id="password"
                 type="password"
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className={`pl-10 ${validationErrors.password ? 'border-destructive' : ''}`}
+                className={`pl-12 bg-white shadow-md rounded-xl transition-shadow duration-300
+                  focus:shadow-indigo-500/50 focus:shadow-[0_0_10px_2px_rgba(99,102,241,0.5)]
+                  ${validationErrors.password ? 'shadow-[0_0_8px_3px_rgba(220,38,38,0.6)] bg-red-50' : ''}`}
                 disabled={isLoading}
+                style={{ border: 'none' }}
               />
             </div>
             {validationErrors.password && (
-              <p className="text-sm text-destructive mt-1">{validationErrors.password}</p>
+              <p className="text-sm text-red-600 mt-1">{validationErrors.password}</p>
             )}
           </div>
 
           <div>
-            <Label htmlFor="confirmPassword">Подтвердите пароль</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Label htmlFor="confirmPassword" className="text-gray-700 font-semibold">Подтвердите пароль</Label>
+            <div className="relative mt-1">
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
                 id="confirmPassword"
                 type="password"
                 placeholder="••••••••"
                 value={formData.confirmPassword}
                 onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                className={`pl-10 ${validationErrors.confirmPassword ? 'border-destructive' : ''}`}
+                className={`pl-12 bg-white shadow-md rounded-xl transition-shadow duration-300
+                  focus:shadow-indigo-500/50 focus:shadow-[0_0_10px_2px_rgba(99,102,241,0.5)]
+                  ${validationErrors.confirmPassword ? 'shadow-[0_0_8px_3px_rgba(220,38,38,0.6)] bg-red-50' : ''}`}
                 disabled={isLoading}
+                style={{ border: 'none' }}
               />
             </div>
             {validationErrors.confirmPassword && (
-              <p className="text-sm text-destructive mt-1">{validationErrors.confirmPassword}</p>
+              <p className="text-sm text-red-600 mt-1">{validationErrors.confirmPassword}</p>
             )}
           </div>
 
           {error && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
+            <Alert variant="destructive" className="rounded-lg shadow-md">
+              <AlertCircle className="h-5 w-5" />
+              <AlertDescription className="text-sm font-medium">{error}</AlertDescription>
             </Alert>
           )}
 
-          <Button 
-            type="submit" 
-            className="w-full" 
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 transition-all duration-300 font-semibold rounded-xl shadow-lg flex justify-center items-center gap-2"
             disabled={isLoading}
           >
             {isLoading ? (
               <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Регистрация...
               </>
             ) : (
               <>
-                <UserPlus className="w-4 h-4 mr-2" />
+                <UserPlus className="w-5 h-5" />
                 Зарегистрироваться
               </>
             )}
           </Button>
 
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground">
+          <div className="text-center mt-3">
+            <p className="text-sm text-gray-600">
               Уже есть аккаунт?{' '}
               <button
                 type="button"
                 onClick={onSwitchToLogin}
-                className="text-primary hover:underline"
+                className="text-indigo-600 hover:text-indigo-800 font-semibold underline"
                 disabled={isLoading}
               >
                 Войти

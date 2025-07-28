@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 
+// Типы
 export interface User {
   id: string;
   email: string;
@@ -29,24 +30,31 @@ interface RegisterData {
   lastName: string;
 }
 
-// Mock API calls
+// Вспомогательные функции
 const mockApiDelay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const mockUsers: { [email: string]: User & { password: string } } = {};
+const getMockUsers = (): { [email: string]: User & { password: string } } => {
+  const data = localStorage.getItem('mockUsers');
+  return data ? JSON.parse(data) : {};
+};
 
-// Async thunks
-export const registerUser = createAsyncThunk(
+const saveMockUsers = (users: { [email: string]: User & { password: string } }) => {
+  localStorage.setItem('mockUsers', JSON.stringify(users));
+};
+
+// Async Thunks
+export const registerUser = createAsyncThunk<User, RegisterData, { rejectValue: string }>(
   'auth/register',
-  async (userData: RegisterData, { rejectWithValue }) => {
+  async (userData, { rejectWithValue }) => {
     try {
       await mockApiDelay(1500);
-      
-      // Check if user already exists
-      if (mockUsers[userData.email]) {
+
+      const users = getMockUsers();
+
+      if (users[userData.email]) {
         return rejectWithValue('Пользователь с таким email уже существует');
       }
 
-      // Create new user
       const newUser: User & { password: string } = {
         id: Date.now().toString(),
         email: userData.email,
@@ -57,85 +65,81 @@ export const registerUser = createAsyncThunk(
         password: userData.password,
       };
 
-      mockUsers[userData.email] = newUser;
+      users[userData.email] = newUser;
+      saveMockUsers(users);
 
-      // Store in localStorage for persistence
-      localStorage.setItem('mockUsers', JSON.stringify(mockUsers));
-
-      const { password, ...userWithoutPassword } = newUser;
+      const {  ...userWithoutPassword } = newUser;
       return userWithoutPassword;
-    } catch (error) {
+    } catch (err) {
+      console.error('Ошибка регистрации:', err);
       return rejectWithValue('Ошибка регистрации');
     }
   }
 );
 
-export const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk<User, LoginCredentials, { rejectValue: string }>(
   'auth/login',
-  async (credentials: LoginCredentials, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {
     try {
       await mockApiDelay(1000);
 
-      // Load users from localStorage
-      const savedUsers = localStorage.getItem('mockUsers');
-      if (savedUsers) {
-        Object.assign(mockUsers, JSON.parse(savedUsers));
-      }
+      const users = getMockUsers();
+      const user = users[credentials.email];
 
-      const user = mockUsers[credentials.email];
-      
       if (!user || user.password !== credentials.password) {
         return rejectWithValue('Неверный email или пароль');
       }
 
-      // Store auth token
       localStorage.setItem('authToken', 'mock-jwt-token');
-      localStorage.setItem('currentUser', JSON.stringify({
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-        createdAt: user.createdAt,
-      }));
+      localStorage.setItem(
+        'currentUser',
+        JSON.stringify({
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
+          createdAt: user.createdAt,
+        })
+      );
 
-      const { password, ...userWithoutPassword } = user;
+      const {  ...userWithoutPassword } = user;
       return userWithoutPassword;
-    } catch (error) {
+    } catch (err) {
+      console.error('Ошибка входа:', err);
       return rejectWithValue('Ошибка входа');
     }
   }
 );
 
-export const checkAuthStatus = createAsyncThunk(
+export const checkAuthStatus = createAsyncThunk<User, void, { rejectValue: string }>(
   'auth/checkStatus',
   async (_, { rejectWithValue }) => {
     try {
       await mockApiDelay(500);
-      
+
       const token = localStorage.getItem('authToken');
       const userData = localStorage.getItem('currentUser');
-      
+
       if (!token || !userData) {
         return rejectWithValue('Не авторизован');
       }
 
       return JSON.parse(userData) as User;
-    } catch (error) {
+    } catch (err) {
+      console.error('Ошибка проверки авторизации:', err);
       return rejectWithValue('Ошибка проверки авторизации');
     }
   }
 );
 
-export const logoutUser = createAsyncThunk(
-  'auth/logout',
-  async () => {
-    await mockApiDelay(300);
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('currentUser');
-  }
-);
+export const logoutUser = createAsyncThunk<void, void>('auth/logout', async () => {
+  await mockApiDelay(300);
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('currentUser');
+});
 
+// Начальное состояние
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
@@ -144,6 +148,7 @@ const initialState: AuthState = {
   registrationStep: 'register',
 };
 
+// Slice
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -151,7 +156,7 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
-    setRegistrationStep: (state, action) => {
+    setRegistrationStep: (state, action: PayloadAction<'register' | 'login' | 'authenticated'>) => {
       state.registrationStep = action.payload;
     },
     resetAuth: (state) => {
@@ -163,7 +168,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Register
+      // Регистрация
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -172,12 +177,14 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.registrationStep = 'login';
         state.error = null;
+        // state.user = action.payload; // можно включить, если нужно
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = action.payload ?? 'Ошибка регистрации';
       })
-      // Login
+
+      // Вход
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -191,11 +198,13 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = action.payload ?? 'Ошибка входа';
       })
-      // Check Auth Status
+
+      // Проверка статуса
       .addCase(checkAuthStatus.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(checkAuthStatus.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -209,7 +218,8 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.registrationStep = 'register';
       })
-      // Logout
+
+      // Выход
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.isAuthenticated = false;
@@ -219,5 +229,6 @@ const authSlice = createSlice({
   },
 });
 
+// Экспорт
 export const { clearError, setRegistrationStep, resetAuth } = authSlice.actions;
 export default authSlice.reducer;
