@@ -1,6 +1,12 @@
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { Badge } from "./ui/badge";
 import { Search, Filter, X } from "lucide-react";
 import { useState } from "react";
@@ -17,14 +23,14 @@ export function SearchFilters({ onSearch, onFilter }: SearchFiltersProps) {
   const [location, setLocation] = useState("");
 
   const popularSkills = [
-    "JavaScript", "React", "Node.js", "Python", "PHP", "WordPress", 
-    "Design", "Marketing", "SEO", "Copywriting", "Translation", "Data Entry"
+    "JavaScript", "React", "Node.js", "Python", "PHP", "WordPress",
+    "Design", "Marketing", "SEO", "Copywriting", "Translation", "Data Entry",
   ];
 
   const handleSkillToggle = (skill: string) => {
-    setSelectedSkills(prev => 
-      prev.includes(skill) 
-        ? prev.filter(s => s !== skill)
+    setSelectedSkills((prev) =>
+      prev.includes(skill)
+        ? prev.filter((s) => s !== skill)
         : [...prev, skill]
     );
   };
@@ -44,22 +50,20 @@ export function SearchFilters({ onSearch, onFilter }: SearchFiltersProps) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border">
-      {/* Search Bar */}
-      <div className="flex gap-4 mb-6">
-        <div className="flex-1">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Поиск по ключевым словам..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
+    <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-md border border-muted">
+      {/* Search */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <div className="flex-1 relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Поиск по ключевым словам..."
+            className="pl-10"
+          />
         </div>
-        <Button onClick={handleSearch}>
-          <Search className="w-4 h-4 mr-2" />
+        <Button onClick={handleSearch} className="flex items-center gap-2">
+          <Search className="w-4 h-4" />
           Найти
         </Button>
       </div>
@@ -71,9 +75,9 @@ export function SearchFilters({ onSearch, onFilter }: SearchFiltersProps) {
             <SelectValue placeholder="Бюджет" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="0-500">$0 - $500</SelectItem>
-            <SelectItem value="500-1000">$500 - $1,000</SelectItem>
-            <SelectItem value="1000-5000">$1,000 - $5,000</SelectItem>
+            <SelectItem value="0-500">$0 – $500</SelectItem>
+            <SelectItem value="500-1000">$500 – $1,000</SelectItem>
+            <SelectItem value="1000-5000">$1,000 – $5,000</SelectItem>
             <SelectItem value="5000+">$5,000+</SelectItem>
           </SelectContent>
         </Select>
@@ -83,7 +87,7 @@ export function SearchFilters({ onSearch, onFilter }: SearchFiltersProps) {
             <SelectValue placeholder="Местоположение" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="remote">Удаленно</SelectItem>
+            <SelectItem value="remote">Удалённо</SelectItem>
             <SelectItem value="moscow">Москва</SelectItem>
             <SelectItem value="spb">Санкт-Петербург</SelectItem>
             <SelectItem value="kiev">Киев</SelectItem>
@@ -91,7 +95,7 @@ export function SearchFilters({ onSearch, onFilter }: SearchFiltersProps) {
           </SelectContent>
         </Select>
 
-        <Button variant="outline" onClick={clearFilters}>
+        <Button variant="outline" onClick={clearFilters} className="w-full">
           <X className="w-4 h-4 mr-2" />
           Сбросить
         </Button>
@@ -99,13 +103,13 @@ export function SearchFilters({ onSearch, onFilter }: SearchFiltersProps) {
 
       {/* Skills */}
       <div>
-        <h4 className="font-medium mb-3">Навыки:</h4>
+        <h4 className="text-sm font-medium text-gray-700 mb-3">Популярные навыки:</h4>
         <div className="flex flex-wrap gap-2">
           {popularSkills.map((skill) => (
             <Badge
               key={skill}
               variant={selectedSkills.includes(skill) ? "default" : "outline"}
-              className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
+              className="cursor-pointer transition-colors hover:bg-primary hover:text-white"
               onClick={() => handleSkillToggle(skill)}
             >
               {skill}
@@ -116,32 +120,32 @@ export function SearchFilters({ onSearch, onFilter }: SearchFiltersProps) {
 
       {/* Active Filters */}
       {(selectedSkills.length > 0 || priceRange || location) && (
-        <div className="mt-4 pt-4 border-t">
-          <h5 className="font-medium mb-2">Активные фильтры:</h5>
+        <div className="mt-6 border-t pt-4">
+          <h5 className="text-sm font-medium text-gray-700 mb-2">Активные фильтры:</h5>
           <div className="flex flex-wrap gap-2">
             {selectedSkills.map((skill) => (
-              <Badge key={skill} variant="secondary">
+              <Badge key={skill} variant="secondary" className="flex items-center">
                 {skill}
-                <X 
-                  className="w-3 h-3 ml-1 cursor-pointer" 
+                <X
+                  className="w-3 h-3 ml-1 cursor-pointer"
                   onClick={() => handleSkillToggle(skill)}
                 />
               </Badge>
             ))}
             {priceRange && (
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="flex items-center">
                 Бюджет: {priceRange}
-                <X 
-                  className="w-3 h-3 ml-1 cursor-pointer" 
+                <X
+                  className="w-3 h-3 ml-1 cursor-pointer"
                   onClick={() => setPriceRange("")}
                 />
               </Badge>
             )}
             {location && (
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="flex items-center">
                 {location}
-                <X 
-                  className="w-3 h-3 ml-1 cursor-pointer" 
+                <X
+                  className="w-3 h-3 ml-1 cursor-pointer"
                   onClick={() => setLocation("")}
                 />
               </Badge>
