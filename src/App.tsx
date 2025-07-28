@@ -19,7 +19,7 @@ import {
   MapPin,
   ChevronRight
 } from "lucide-react";
-import { Toaster } from 'sonner'
+// import { Toaster } from 'sonner'
 
 function AppContent() {
   const [currentView, setCurrentView] = useState<'client' | 'admin'>('client');
@@ -167,7 +167,7 @@ function AppContent() {
               >
                 <TrackingForm />
               </motion.section>
-<Toaster />
+{/* <Toaster /> */}
               {/* Features */}
               <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
                 <motion.div

@@ -59,7 +59,7 @@ export const saveBotSettings = createAsyncThunk(
 
 export const testBot = createAsyncThunk(
   'admin/testBot',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, {  rejectWithValue }) => {
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
@@ -216,7 +216,7 @@ const adminSlice = createSlice({
         state.isLoading = false;
         state.stats = action.payload;
       })
-      .addCase(loadStats.rejected, (state, action) => {
+      .addCase(loadStats.rejected, (state) => {
         state.isLoading = false;
         state.error = 'Ошибка загрузки статистики';
       });
