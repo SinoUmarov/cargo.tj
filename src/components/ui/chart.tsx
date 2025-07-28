@@ -1,11 +1,12 @@
 "use client";
 
 import * as React from "react";
-import * as RechartsPrimitive from "recharts@2.15.2";
+import * as RechartsPrimitive from "recharts";
 
 import { cn } from "./utils";
+import { Payload } from './../../../node_modules/recharts/types/component/DefaultTooltipContent.d';
 
-// Format: { THEME_NAME: CSS_SELECTOR }
+
 const THEMES = { light: "", dark: ".dark" } as const;
 
 export type ChartConfig = {
@@ -39,6 +40,8 @@ function ChartContainer({
   className,
   children,
   config,
+  Payload,
+  label,
   ...props
 }: React.ComponentProps<"div"> & {
   config: ChartConfig;
@@ -106,12 +109,10 @@ const ChartTooltip = RechartsPrimitive.Tooltip;
 
 function ChartTooltipContent({
   active,
-  payload,
   className,
   indicator = "dot",
   hideLabel = false,
   hideIndicator = false,
-  label,
   labelFormatter,
   labelClassName,
   formatter,
