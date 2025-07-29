@@ -18,9 +18,9 @@ import {
   Mail,
   MapPin,
   ChevronRight,
-  Twitter,
-  Linkedin,
-  Github
+  // Twitter,
+  // Linkedin,
+  // Github
 } from "lucide-react";
 
 function AppContent() {
@@ -111,7 +111,7 @@ function AppContent() {
             >
               {/* <ThemeToggle /> */}
               <div className="hidden md:flex items-center gap-2">
-                <Button
+                {/* <Button
                   variant={currentView === 'client' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setCurrentView('client')}
@@ -119,8 +119,8 @@ function AppContent() {
                 >
                   <Package className="w-4 h-4" />
                   Клиенты
-                </Button>
-                <Button
+                </Button> */}
+                {/* <Button
                   variant={currentView === 'admin' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setCurrentView('admin')}
@@ -128,7 +128,7 @@ function AppContent() {
                 >
                   <Settings className="w-4 h-4" />
                   Админ
-                </Button>
+                </Button> */}
               </div>
             </motion.div>
           </div>
@@ -190,14 +190,14 @@ function AppContent() {
                         Отслеживайте грузы по всему миру в режиме реального времени
                       </p>
                       <div className="mt-6 flex justify-center">
-                        <Button 
+                        {/* <Button 
                           variant="ghost" 
                           size="sm" 
                           className="text-blue-500 dark:text-blue-400 gap-1 group"
                         >
                           Подробнее 
                           <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
+                        </Button> */}
                       </div>
                     </CardContent>
                   </Card>
@@ -217,14 +217,14 @@ function AppContent() {
                         Мгновенные оповещения об изменении статуса вашего груза
                       </p>
                       <div className="mt-6 flex justify-center">
-                        <Button 
+                        {/* <Button 
                           variant="ghost" 
                           size="sm" 
                           className="text-green-500 dark:text-green-400 gap-1 group"
                         >
                           Подробнее 
                           <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
+                        </Button> */}
                       </div>
                     </CardContent>
                   </Card>
@@ -244,14 +244,14 @@ function AppContent() {
                         Ваши данные защищены современными технологиями шифрования
                       </p>
                       <div className="mt-6 flex justify-center">
-                        <Button 
+                        {/* <Button 
                           variant="ghost" 
                           size="sm" 
                           className="text-purple-500 dark:text-purple-400 gap-1 group"
                         >
                           Подробнее 
                           <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
+                        </Button> */}
                       </div>
                     </CardContent>
                   </Card>
@@ -314,7 +314,7 @@ function AppContent() {
                 Инновационная система отслеживания грузов с интеграцией Telegram бота и аналитикой в реальном времени.
               </p>
               <div className="mt-6 flex gap-4">
-                <Button variant="ghost" size="icon" className="rounded-full">
+                {/* <Button variant="ghost" size="icon" className="rounded-full">
                   <Twitter className="w-4 h-4" />
                 </Button>
                 <Button variant="ghost" size="icon" className="rounded-full">
@@ -322,7 +322,7 @@ function AppContent() {
                 </Button>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Github className="w-4 h-4" />
-                </Button>
+                </Button> */}
               </div>
             </motion.div>
 
