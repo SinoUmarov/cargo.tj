@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './slices/authSlice';
 import trackingSlice from './slices/trackingSlice';
-import adminSlice from './slices/adminSlice';
+// import adminSlice from './slices/adminSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
     tracking: trackingSlice,
-    admin: adminSlice,
+    // admin: adminSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

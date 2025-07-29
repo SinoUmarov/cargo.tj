@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Label } from "../ui/label";
-import { Alert, AlertDescription } from "../ui/alert";
-import { LogIn, Mail, Lock, AlertCircle, ArrowLeft } from "lucide-react";
+// import { Alert, AlertDescription } from "../ui/alert";
+import { LogIn, Mail, Lock, ArrowLeft } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { loginUser, clearError, setRegistrationStep } from "../../store/slices/authSlice";
 
@@ -132,14 +132,14 @@ export function LoginForm() {
             )}
           </div>
 
-          {error && (
+          {/* {error && (
             <Alert variant="destructive" className="mb-4 shadow-md rounded-lg">
               <AlertCircle className="h-5 w-5" />
               <AlertDescription className="text-sm font-medium">{error}</AlertDescription>
             </Alert>
-          )}
+          )} */}
 
-          <Button 
+          {/* <Button 
             type="submit" 
             className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 transition-all duration-300 flex justify-center items-center gap-2 font-semibold shadow-md"
             disabled={isLoading}
@@ -155,7 +155,7 @@ export function LoginForm() {
                 Войти
               </>
             )}
-          </Button>
+          </Button> */}
 
           <div className="text-center mt-4">
             <button

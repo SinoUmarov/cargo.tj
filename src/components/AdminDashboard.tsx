@@ -3,38 +3,38 @@ import { useEffect } from "react";
 import {
   Settings,
   Bot,
-  Save,
-  TestTube,
-  CheckCircle,
-  AlertCircle,
+  // Save,
+  // TestTube,
+  // CheckCircle,
+  // AlertCircle,
   BarChart3,
-  Users,
+
   MessageSquare,
-  LogOut,
+  // LogOut,
   UserCircle,
-  Package,
+
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import {
-  saveBotSettings,
-  testBot,
-  loadBotSettings,
-  loadStats,
-  updateBotSettings,
-  clearError,
-} from "../store/slices/adminSlice";
-import { logoutUser } from "../store/slices/authSlice";
-import { toast } from "sonner";
+// import {
+//   saveBotSettings,
+//   testBot,
+//   loadBotSettings,
+//   loadStats,
+//   updateBotSettings,
+//   clearError,
+// } from "../store/slices/adminSlice";
+// import { logoutUser } from "../store/slices/authSlice";
+// import { toast } from "sonner";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "./ui/tabs";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+// import { Button } from "./ui/button";
+// import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
+// import { Textarea } from "./ui/textarea";
 import {
   Card,
   CardContent,
@@ -42,56 +42,56 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Alert, AlertDescription } from "./ui/alert";
+// import { Badge } from "./ui/badge";
+// import { Alert, AlertDescription } from "./ui/alert";
 
 export function AdminDashboard() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-  const { botSettings, stats, isConnected, isLoading, error, isTesting } =
-    useAppSelector((state) => state.admin);
+  // const { botSettings, stats, isConnected, isLoading, error, isTesting } =
+  //   useAppSelector((state) => state.admin);
 
   useEffect(() => {
-    dispatch(loadBotSettings());
-    dispatch(loadStats());
+    // dispatch(loadBotSettings());
+    // dispatch(loadStats());
   }, [dispatch]);
 
-  const handleSaveSettings = async () => {
-    if (!botSettings.token.trim()) {
-      toast.error("Пожалуйста, введите токен бота");
-      return;
-    }
-    const result = await dispatch(saveBotSettings(botSettings));
-    if (saveBotSettings.fulfilled.match(result)) {
-      toast.success("Настройки сохранены успешно");
-    }
-  };
+  // const handleSaveSettings = async () => {
+  //   if (!botSettings.token.trim()) {
+  //     toast.error("Пожалуйста, введите токен бота");
+  //     return;
+  //   }
+  //   const result = await dispatch(saveBotSettings(botSettings));
+  //   if (saveBotSettings.fulfilled.match(result)) {
+  //     toast.success("Настройки сохранены успешно");
+  //   }
+  // };
 
-  const handleTestBot = async () => {
-    if (!isConnected) {
-      toast.error("Сначала настройте и сохраните бота");
-      return;
-    }
-    const result = await dispatch(testBot());
-    if (testBot.fulfilled.match(result)) {
-      toast.success("Тест прошел успешно! Бот отвечает на запросы.");
-    }
-  };
+  // const handleTestBot = async () => {
+  //   if (!isConnected) {
+  //     toast.error("Сначала настройте и сохраните бота");
+  //     return;
+  //   }
+  //   const result = await dispatch(testBot());
+  //   if (testBot.fulfilled.match(result)) {
+  //     toast.success("Тест прошел успешно! Бот отвечает на запросы.");
+  //   }
+  // };
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    toast.success("Вы успешно вышли из системы");
-  };
+  // const handleLogout = () => {
+  //   dispatch(logoutUser());
+  //   toast.success("Вы успешно вышли из системы");
+  // };
 
-  const handleInputChange = (field, value) => {
-    dispatch(updateBotSettings({ [field]: value }));
-    if (error) dispatch(clearError());
-  };
+  // const handleInputChange = (field, value) => {
+  //   dispatch(updateBotSettings({ [field]: value }));
+  //   if (error) dispatch(clearError());
+  // };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 py-8 px-4 ">
+    <div className="max-w-3xl  gap-[400px]  mx-auto space-y-6 py-8 px-4 ">
       {/* Header */}
-      <Card className="rounded-2xl shadow-xl p-[10px] bg-background/70 backdrop-blur">
+      <Card className="rounded-5xl  shadow-xl p-[10px] bg-background/70 backdrop-blur">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -114,14 +114,14 @@ export function AdminDashboard() {
                   {user?.firstName} {user?.lastName}
                 </span>
               </div>
-              <Button
+              {/* <Button
                 variant="outline"
                 size="sm"
                 onClick={handleLogout}
                 className="transition-all hover:scale-105 hover:shadow-md"
               >
                 <LogOut className="w-4 h-4 mr-2" /> Выйти
-              </Button>
+              </Button> */}
             </div>
           </div>
         </CardHeader>
@@ -154,7 +154,7 @@ export function AdminDashboard() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <div
                     className={`w-3 h-3 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"}`}
                   />
@@ -169,7 +169,7 @@ export function AdminDashboard() {
                   >
                     <CheckCircle className="w-3 h-3 mr-1" /> Активно
                   </Badge>
-                )}
+                )} */}
               </div>
 
               <div className="space-y-4">
@@ -182,7 +182,7 @@ export function AdminDashboard() {
                         ? "Имя пользователя бота"
                         : "Приветственное сообщение"}
                     </Label>
-                    {field === "welcomeMessage" ? (
+                    {/* {field === "welcomeMessage" ? (
                       <Textarea
                         id={field}
                         value={botSettings[field] || ""}
@@ -200,18 +200,18 @@ export function AdminDashboard() {
                         className="rounded-xl shadow-sm"
                         disabled={isLoading}
                       />
-                    )}
+                    )} */}
                   </div>
                 ))}
 
-                {error && (
+                {/* {error && (
                   <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>{error}</AlertDescription>
                   </Alert>
-                )}
+                )} */}
 
-                <div className="flex gap-4">
+                {/* <div className="flex gap-4">
                   <Button onClick={handleSaveSettings} className="flex-1">
                     {isLoading ? (
                       <>
@@ -240,7 +240,7 @@ export function AdminDashboard() {
                       </>
                     )}
                   </Button>
-                </div>
+                </div> */}
               </div>
             </CardContent>
           </Card>
@@ -257,9 +257,9 @@ export function AdminDashboard() {
             </CardHeader>
             <CardContent className="text-muted-foreground">
               <ul className="space-y-2">
-                <li>🔢 Всего компаний: {stats.totalCompanies}</li>
+                {/* <li>🔢 Всего компаний: {stats.totalCompanies}</li>
                 <li>📦 Активных посылок: {stats.totalParcels}</li>
-                <li>👤 Зарегистрированных пользователей: {stats.totalUsers}</li>
+                <li>👤 Зарегистрированных пользователей: {stats.totalUsers}</li> */}
               </ul>
             </CardContent>
           </Card>

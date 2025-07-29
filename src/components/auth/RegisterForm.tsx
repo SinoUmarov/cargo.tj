@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Label } from "../ui/label";
-import { Alert, AlertDescription } from "../ui/alert";
-import { UserPlus, Mail, Lock, User, AlertCircle } from "lucide-react";
+// import { Alert, AlertDescription } from "../ui/alert";
+import { UserPlus, Mail, Lock, User } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { registerUser, clearError } from "../../store/slices/authSlice";
 
@@ -100,7 +100,7 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
                     id={field}
                     type="text"
                     placeholder={field === 'firstName' ? 'Имя' : 'Фамилия'}
-                    value={formData[field]}
+                    // value={formData[field]}
                     onChange={(e) => handleInputChange(field, e.target.value)}
                     className={`pl-12 bg-white shadow-md rounded-xl transition-shadow duration-300
                       focus:shadow-indigo-500/50 focus:shadow-[0_0_10px_2px_rgba(99,102,241,0.5)]
@@ -182,14 +182,14 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
             )}
           </div>
 
-          {error && (
+          {/* {error && (
             <Alert variant="destructive" className="rounded-lg shadow-md">
               <AlertCircle className="h-5 w-5" />
               <AlertDescription className="text-sm font-medium">{error}</AlertDescription>
             </Alert>
-          )}
+          )} */}
 
-          <Button
+          {/* <Button
             type="submit"
             className="w-full bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 transition-all duration-300 font-semibold rounded-xl shadow-lg flex justify-center items-center gap-2"
             disabled={isLoading}
@@ -205,7 +205,7 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
                 Зарегистрироваться
               </>
             )}
-          </Button>
+          </Button> */}
 
           <div className="text-center mt-3">
             <p className="text-sm text-gray-600">

@@ -1,7 +1,7 @@
-import { Button } from "./ui/button";
-import { Menu, User, PlusCircle } from "lucide-react";
+// import { Button } from "./ui/button";
+import { Menu } from "lucide-react";
 import { useState } from "react";
-import clsx from "clsx"; // не забудь установить: npm i clsx
+// import clsx from "clsx"; // не забудь установить: npm i clsx
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,14 +32,14 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-3">
-            <Button variant="outline" size="sm" className="rounded-full">
+            {/* <Button variant="outline" size="sm" className="rounded-full">
               <User className="w-4 h-4 mr-2" />
               Войти
             </Button>
             <Button size="sm" className="rounded-full">
               <PlusCircle className="w-4 h-4 mr-2" />
               Разместить работу
-            </Button>
+            </Button> */}
           </div>
 
           {/* Mobile menu button */}
@@ -65,12 +65,12 @@ export function Header() {
                 Как это работает
               </a>
               <div className="flex flex-col space-y-2 pt-4">
-                <Button variant="outline" size="sm" className="rounded-full">
+                {/* <Button variant="outline" size="sm" className="rounded-full">
                   Войти
                 </Button>
                 <Button size="sm" className="rounded-full">
                   Разместить работу
-                </Button>
+                </Button> */}
               </div>
             </nav>
           </div>

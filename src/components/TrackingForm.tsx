@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
+// import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Search, Package, Truck, CheckCircle, Clock, AlertCircle, RefreshCw, History, X } from "lucide-react";
+import {  Package, Truck, CheckCircle, Clock, AlertCircle,  History } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { trackCargo, refreshTracking, addToHistory, clearError, clearTracking, clearHistory } from "../store/slices/trackingSlice";
-import { Alert, AlertDescription } from "./ui/alert";
+import { trackCargo,  addToHistory, clearError  } from "../store/slices/trackingSlice";
+// import { Alert, AlertDescription } from "./ui/alert";
 
 export function TrackingForm() {
   const dispatch = useAppDispatch();
-  const { currentTracking, isLoading, error, searchHistory } = useAppSelector((state) => state.tracking);
+  const { currentTracking, isLoading,  searchHistory } = useAppSelector((state) => state.tracking);
   
   const [trackingCode, setTrackingCode] = useState('');
 
@@ -27,21 +27,21 @@ export function TrackingForm() {
     }
   };
 
-  const handleRefresh = () => {
-    if (currentTracking) {
-      dispatch(refreshTracking(currentTracking.trackingCode));
-    }
-  };
+  // const handleRefresh = () => {
+  //   if (currentTracking) {
+  //     dispatch(refreshTracking(currentTracking.trackingCode));
+  //   }
+  // };
 
   const handleHistoryClick = (code: string) => {
     setTrackingCode(code);
     dispatch(trackCargo(code));
   };
 
-  const handleClearTracking = () => {
-    dispatch(clearTracking());
-    setTrackingCode('');
-  };
+  // const handleClearTracking = () => {
+  //   dispatch(clearTracking());
+  //   setTrackingCode('');
+  // };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -74,7 +74,7 @@ export function TrackingForm() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 ">
+    <div className="max-w-7xl  mx-auto space-y-6 ">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -96,7 +96,7 @@ export function TrackingForm() {
                 disabled={isLoading}
               />
             </div>
-            <Button type="submit" disabled={isLoading || !trackingCode.trim()} className="h-12 px-8">
+            {/* <Button type="submit" disabled={isLoading || !trackingCode.trim()} className="h-12 px-8">
               {isLoading ? (
                 <>
                   <div className="w-4 h-4  rounded-full animate-spin mr-2" />
@@ -108,15 +108,15 @@ export function TrackingForm() {
                   Отследить
                 </>
               )}
-            </Button>
+            </Button> */}
           </form>
           
-          {error && (
+          {/* {error && (
             <Alert variant="destructive" className="mt-4">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>{error}</AlertDescription>
             </Alert>
-          )}
+          )} */}
 
           {/* Search History */}
           {searchHistory.length > 0 && (
@@ -126,14 +126,14 @@ export function TrackingForm() {
                   <History className="w-4 h-4" />
                   История поиска
                 </h4>
-                <Button
+                {/* <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => dispatch(clearHistory())}
                   className="text-muted-foreground hover:text-foreground"
                 >
                   <X className="w-4 h-4" />
-                </Button>
+                </Button> */}
               </div>
               <div className="flex flex-wrap gap-2">
                 {searchHistory.map((code, index) => (
@@ -160,7 +160,7 @@ export function TrackingForm() {
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
                   Информация о грузе
-                  <Button
+                  {/* <Button
                     variant="ghost"
                     size="sm"
                     onClick={handleRefresh}
@@ -168,17 +168,17 @@ export function TrackingForm() {
                     className="ml-2"
                   >
                     <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-                  </Button>
+                  </Button> */}
                 </CardTitle>
                 <div className="flex items-center gap-2">
                   {getStatusBadge(currentTracking.status)}
-                  <Button
+                  {/* <Button
                     variant="ghost"
                     size="sm"
                     onClick={handleClearTracking}
                   >
                     <X className="w-4 h-4" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </CardHeader>

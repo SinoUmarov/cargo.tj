@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import { Button } from "./components/ui/button";
+// import { Button } from "./components/ui/button";
 import { Card, CardContent } from "./components/ui/card";
 import { TrackingForm } from "./components/TrackingForm";
 import { AdminPanel } from "./components/AdminPanel";
-import { ThemeToggle } from "./components/ThemeToggle";
+// import { ThemeToggle } from "./components/ThemeToggle";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Package, 
@@ -109,7 +109,7 @@ function AppContent() {
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-4"
             >
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
               <div className="hidden md:flex items-center gap-2">
                 <Button
                   variant={currentView === 'client' ? 'default' : 'outline'}
@@ -180,9 +180,9 @@ function AppContent() {
                   whileHover={{ y: -5 }}
                   transition={{ type: 'spring', stiffness: 300 }}
                 >
-                  <Card className="h-full border-none bg-background/70 dark:bg-[#151521]/70 backdrop-blur-sm hover:shadow-lg transition-all hover:border-primary/30 hover:-translate-y-1">
+                  <Card className="h-full border-none  bg-background/70 dark:bg-[#151521]/70 backdrop-blur-sm hover:shadow-lg transition-all hover:border-primary/30 hover:-translate-y-1">
                     <CardContent className="p-6">
-                      <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-500/10 dark:bg-blue-500/15 rounded-xl mb-6 mx-auto shadow-inner">
+                      <div className="inline-flex ml-[150px] items-center justify-center w-14 h-14 bg-blue-500/10 dark:bg-blue-500/15 rounded-xl mb-6 mx-auto shadow-inner ">
                         <Globe className="w-6 h-6 text-blue-500 dark:text-blue-400" />
                       </div>
                       <h3 className="text-lg font-semibold mb-3 text-center">Глобальное отслеживание</h3>
@@ -209,7 +209,7 @@ function AppContent() {
                 >
                   <Card className="h-full border-none bg-background/70 dark:bg-[#151521]/70 backdrop-blur-sm hover:shadow-lg transition-all hover:border-green-500/30 hover:-translate-y-1">
                     <CardContent className="p-6">
-                      <div className="inline-flex items-center justify-center w-14 h-14 bg-green-500/10 dark:bg-green-500/15 rounded-xl mb-6 mx-auto shadow-inner">
+                      <div className="inline-flex ml-[150px] items-center justify-center w-14 h-14 bg-green-500/10 dark:bg-green-500/15 rounded-xl mb-6 mx-auto shadow-inner">
                         <Clock className="w-6 h-6 text-green-500 dark:text-green-400" />
                       </div>
                       <h3 className="text-lg font-semibold mb-3 text-center">Быстрые уведомления</h3>
@@ -236,7 +236,7 @@ function AppContent() {
                 >
                   <Card className="h-full border-none bg-background/70 dark:bg-[#151521]/70 backdrop-blur-sm hover:shadow-lg transition-all hover:border-purple-500/30 hover:-translate-y-1">
                     <CardContent className="p-6">
-                      <div className="inline-flex items-center justify-center w-14 h-14 bg-purple-500/10 dark:bg-purple-500/15 rounded-xl mb-6 mx-auto shadow-inner">
+                      <div className="inline-flex ml-[150px] items-center justify-center w-14 h-14 bg-purple-500/10 dark:bg-purple-500/15 rounded-xl mb-6 mx-auto shadow-inner">
                         <Shield className="w-6 h-6 text-purple-500 dark:text-purple-400" />
                       </div>
                       <h3 className="text-lg font-semibold mb-3 text-center">Безопасность</h3>
