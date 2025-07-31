@@ -15,26 +15,16 @@ import {
 
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-// import {
-//   saveBotSettings,
-//   testBot,
-//   loadBotSettings,
-//   loadStats,
-//   updateBotSettings,
-//   clearError,
-// } from "../store/slices/adminSlice";
-// import { logoutUser } from "../store/slices/authSlice";
-// import { toast } from "sonner";
+
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "./ui/tabs";
-// import { Button } from "./ui/button";
-// import { Input } from "./ui/input";
+
 import { Label } from "./ui/label";
-// import { Textarea } from "./ui/textarea";
+
 import {
   Card,
   CardContent,
@@ -42,51 +32,18 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-// import { Badge } from "./ui/badge";
-// import { Alert, AlertDescription } from "./ui/alert";
+
 
 export function AdminDashboard() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-  // const { botSettings, stats, isConnected, isLoading, error, isTesting } =
-  //   useAppSelector((state) => state.admin);
+
 
   useEffect(() => {
-    // dispatch(loadBotSettings());
-    // dispatch(loadStats());
+  
   }, [dispatch]);
 
-  // const handleSaveSettings = async () => {
-  //   if (!botSettings.token.trim()) {
-  //     toast.error("Пожалуйста, введите токен бота");
-  //     return;
-  //   }
-  //   const result = await dispatch(saveBotSettings(botSettings));
-  //   if (saveBotSettings.fulfilled.match(result)) {
-  //     toast.success("Настройки сохранены успешно");
-  //   }
-  // };
-
-  // const handleTestBot = async () => {
-  //   if (!isConnected) {
-  //     toast.error("Сначала настройте и сохраните бота");
-  //     return;
-  //   }
-  //   const result = await dispatch(testBot());
-  //   if (testBot.fulfilled.match(result)) {
-  //     toast.success("Тест прошел успешно! Бот отвечает на запросы.");
-  //   }
-  // };
-
-  // const handleLogout = () => {
-  //   dispatch(logoutUser());
-  //   toast.success("Вы успешно вышли из системы");
-  // };
-
-  // const handleInputChange = (field, value) => {
-  //   dispatch(updateBotSettings({ [field]: value }));
-  //   if (error) dispatch(clearError());
-  // };
+  
 
   return (
     <div className="max-w-3xl  gap-[400px]  mx-auto space-y-6 py-8 px-4 ">
@@ -114,14 +71,7 @@ export function AdminDashboard() {
                   {user?.firstName} {user?.lastName}
                 </span>
               </div>
-              {/* <Button
-                variant="outline"
-                size="sm"
-                onClick={handleLogout}
-                className="transition-all hover:scale-105 hover:shadow-md"
-              >
-                <LogOut className="w-4 h-4 mr-2" /> Выйти
-              </Button> */}
+             
             </div>
           </div>
         </CardHeader>
@@ -154,22 +104,7 @@ export function AdminDashboard() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center gap-4">
-                {/* <div className="flex items-center gap-2">
-                  <div
-                    className={`w-3 h-3 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"}`}
-                  />
-                  <span className="text-sm">
-                    {isConnected ? "Подключено" : "Не подключено"}
-                  </span>
-                </div>
-                {isConnected && (
-                  <Badge
-                    variant="outline"
-                    className="text-green-600 bg-green-100 border-green-300"
-                  >
-                    <CheckCircle className="w-3 h-3 mr-1" /> Активно
-                  </Badge>
-                )} */}
+               
               </div>
 
               <div className="space-y-4">
@@ -182,65 +117,11 @@ export function AdminDashboard() {
                         ? "Имя пользователя бота"
                         : "Приветственное сообщение"}
                     </Label>
-                    {/* {field === "welcomeMessage" ? (
-                      <Textarea
-                        id={field}
-                        value={botSettings[field] || ""}
-                        onChange={(e) => handleInputChange(field, e.target.value)}
-                        rows={3}
-                        className="rounded-xl shadow-sm border-1 "
-                        disabled={isLoading}
-                      />
-                    ) : (
-                      <Input
-                        id={field}
-                        type={field === "token" ? "password" : "text"}
-                        value={botSettings[field] || ""}
-                        onChange={(e) => handleInputChange(field, e.target.value)}
-                        className="rounded-xl shadow-sm"
-                        disabled={isLoading}
-                      />
-                    )} */}
+                  
                   </div>
                 ))}
 
-                {/* {error && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )} */}
-
-                {/* <div className="flex gap-4">
-                  <Button onClick={handleSaveSettings} className="flex-1">
-                    {isLoading ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                        Сохранение...
-                      </>
-                    ) : (
-                      <>
-                        <Save className="w-4 h-4 mr-2" /> Сохранить
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleTestBot}
-                    disabled={!isConnected || isTesting}
-                  >
-                    {isTesting ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
-                        Тестирование...
-                      </>
-                    ) : (
-                      <>
-                        <TestTube className="w-4 h-4 mr-2" /> Тестировать
-                      </>
-                    )}
-                  </Button>
-                </div> */}
+              
               </div>
             </CardContent>
           </Card>
@@ -257,9 +138,9 @@ export function AdminDashboard() {
             </CardHeader>
             <CardContent className="text-muted-foreground">
               <ul className="space-y-2">
-                {/* <li>🔢 Всего компаний: {stats.totalCompanies}</li>
-                <li>📦 Активных посылок: {stats.totalParcels}</li>
-                <li>👤 Зарегистрированных пользователей: {stats.totalUsers}</li> */}
+                <li>🔢 Всего компаний: </li>
+                <li>📦 Активных посылок:</li>
+                <li>👤 Зарегистрированных пользователей:</li>
               </ul>
             </CardContent>
           </Card>
