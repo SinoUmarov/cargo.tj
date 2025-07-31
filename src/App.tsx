@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-// import { Button } from "./components/ui/button";
+import { Button } from "./components/ui/button";
 import { Card, CardContent } from "./components/ui/card";
 import { TrackingForm } from "./components/TrackingForm";
 import { AdminPanel } from "./components/AdminPanel";
-// import { ThemeToggle } from "./components/ThemeToggle";
+import { ThemeToggle } from "./components/ThemeToggle";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Package, 
@@ -109,9 +109,9 @@ function AppContent() {
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-4"
             >
-              {/* <ThemeToggle /> */}
+              <ThemeToggle />
               <div className="hidden md:flex items-center gap-2">
-                {/* <Button
+                <Button
                   variant={currentView === 'client' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setCurrentView('client')}
@@ -119,8 +119,8 @@ function AppContent() {
                 >
                   <Package className="w-4 h-4" />
                   Клиенты
-                </Button> */}
-                {/* <Button
+                </Button>
+                <Button
                   variant={currentView === 'admin' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setCurrentView('admin')}
@@ -128,7 +128,7 @@ function AppContent() {
                 >
                   <Settings className="w-4 h-4" />
                   Админ
-                </Button> */}
+                </Button>
               </div>
             </motion.div>
           </div>
